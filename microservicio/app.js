@@ -25,7 +25,7 @@ const pool = new Pool({
   database: "db_arqui",
 });
 
-const crearTabla = `CREATE TABLE IF NOT EXISTS py1_arqui2.habitaciones(
+const crearTabla = `CREATE TABLE IF NOT EXISTS habitaciones(
     id_Medicion SERIAL PRIMARY KEY,
     id_Habitacion INT,
     fecha TIMESTAMP,
@@ -55,7 +55,7 @@ app.post("/insertarMedicion", async (req, res) => {
     }
 
     const query = `
-        INSERT INTO py1_arqui2.habitaciones (id_Habitacion, fecha, Cantidad_Personas, Mapa)
+        INSERT INTO habitaciones (id_Habitacion, fecha, Cantidad_Personas, Mapa)
         VALUES ($1, $2, $3, $4)
       `;
     const values = [id_Habitacion, fecha, cantidad_personas, mapa];
@@ -131,7 +131,7 @@ app.get("/obtener-json", (req, res) => {
 
 app.get("/tiempo-real", (req, res) => {
   const query = `
-    select p.Mapa from py1_arqui2.habitaciones p
+    select p.Mapa from habitaciones p
     where id_Habitacion = $1
     `;
   pool.query(query, [habitacion], (error, results) => {
@@ -149,7 +149,7 @@ app.post("/historico", (req, res) => {
 
   const query = `
       SELECT p.Mapa
-      FROM py1_arqui2.habitaciones p
+      FROM habitaciones p
       WHERE id_Habitacion = $1
       AND fecha BETWEEN $2 AND $3
     `;

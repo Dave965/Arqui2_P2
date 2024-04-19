@@ -1,63 +1,153 @@
-/* HomePage.css */
-
 .home-page {
-    background-color: #333; /* Fondo oscuro pero no negro */
-    height: 100vh; /* Altura de la pantalla completa */
-    display: flex;
-    flex-direction: column;
-    align-items: center; /* Centrar verticalmente */
-  }
-  
-  .title {
-    color: white; /* Color del texto */
-  }
-  
-  .container {
-    display: flex;
-  }
-  
-  .column {
-    display: flex;
-    flex-direction: column;
-  }
-  
-  .box {
-    margin: 2px; /* Espacio entre los cuadros */
-    position: relative; /* Para posicionar el nombre y el número dentro del cuadro */
-    cursor: pointer; /* Cambiar el cursor a una mano cuando se pasa sobre el cuadro */
-    transition: background-color 0.3s; /* Animación de transición para suavizar el cambio de color */
-  }
-  
-  /* Resaltar el cuadro cuando se pasa el cursor sobre él */
-  .box:hover {
-    background-color: #ddd; /* Cambiar el color de fondo al pasar el cursor */
-  }
-  
-  .name {
-    position: absolute;
-    top: 10px;
-    left: 10px;
-    color: #333; /* Color del nombre */
-  }
-  
-  .number {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    font-size: 24px; /* Tamaño del número */
-    color: #333; /* Color del número */
-  }
-  
-  .small-box {
-    width: 200px;
-    height: 200px;
-    background-color: #ccc; /* Color gris */
-  }
-  
-  .large-box {
-    width: 200px;
-    height: 302px;
-    background-color: #ccc; /* Color gris */
-  }
-  
+  background-color: #333;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  overflow-y: auto;
+  position: relative; 
+}
+.compass-img {
+  position: absolute; 
+  top: 30px;
+  left: 210px; 
+  width: 140px;
+  height: auto;
+}
+
+.sidebar {
+  position: absolute; 
+  top: 250px; 
+  left: 170px; 
+  width: 200px; 
+  background-color: #4682B4; 
+  padding: 10px; 
+  border-radius: 15px; 
+  box-shadow: 0 4px 8px rgba(0,0,0,0.5); 
+  display: flex; 
+  flex-direction: column; 
+  align-items: center; 
+}
+
+.sidebar-title {
+  color: white; 
+  margin-bottom: 10px; 
+}
+
+.sidebar button {
+  width: 100%; 
+  padding: 8px; 
+  margin: 5px 0; 
+  background-color: #ADD8E6; 
+  color: #333; 
+  border: none; 
+  border-radius: 10px; 
+  cursor: pointer; 
+  font-size: 16px; 
+  transition: background-color 0.3s; 
+}
+
+.sidebar button:hover {
+  background-color: #FFD700; 
+}
+
+.caja {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 700px;
+  height: 800px;
+  margin: 2px;
+  background-color: rgba(0, 0, 0, 0.1);
+  box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.3);
+  /* Sombra para efecto de relieve */
+}
+
+.caja2 {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 600px;
+  height: 800px;
+  margin: 2px;
+  background-color: rgba(0, 0, 0, 0.1);
+  box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.3);
+  /* Sombra para efecto de relieve */
+}
+
+.caja3 {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 500px;
+  height: 800px;
+  margin: 5px;
+  background-color: rgba(0, 0, 0, 0.1);
+  box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.3);
+  /* Sombra para efecto de relieve */
+}
+
+
+.title {
+  color: white;
+  /* Color del texto */
+}
+
+.container {
+  display: flex;
+}
+
+.column {
+  display: flex;
+  flex-direction: column;
+}
+
+.box {
+  margin: 2px;
+  /* Espacio entre los cuadros */
+  position: relative;
+  /* Para posicionar el nombre y el número dentro del cuadro */
+  cursor: pointer;
+  /* Cambiar el cursor a una mano cuando se pasa sobre el cuadro */
+  transition: background-color 0.3s;
+  /* Animación de transición para suavizar el cambio de color */
+}
+
+/* Resaltar el cuadro cuando se pasa el cursor sobre él */
+.box:hover {
+  background-color: #ddd;
+  /* Cambiar el color de fondo al pasar el cursor */
+}
+
+.name {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  color: #333;
+  /* Color del nombre */
+}
+
+.number {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 24px;
+  /* Tamaño del número */
+  color: #333;
+  /* Color del número */
+}
+
+.small-box {
+  width: 200px;
+  height: 200px;
+  background-color: #ccc;
+  /* Color gris */
+}
+
+.large-box {
+  width: 200px;
+  height: 302px;
+  background-color: #ccc;
+  /* Color gris */
+}

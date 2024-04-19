@@ -13,9 +13,20 @@ services:
     depends_on:
       - db
 
+  frontend:
+    image: acye2_p1_frontend
+    container_name: acye2_p1_frontend
+    restart: always
+    ports:
+      - "3000:3000"
+    expose:
+      - "3000"
+    depends_on:
+      - backend
+
   db:
     image: postgres:latest
-    container_name: p1_so1_db
+    container_name: acye2_p1_db
     restart: always
     environment:
       POSTGRES_PASSWORD: 123
@@ -27,5 +38,6 @@ services:
       - "5432"
     volumes:
       - postgresData:/var/lib/mysql
+      
 volumes:
-  mysql-data:
+  postgresData:
