@@ -1,0 +1,48 @@
+.informacion-page {
+    background-color: #333; /* Fondo oscuro pero no negro */
+    min-height: 100vh; /* Altura mínima de la pantalla completa */
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Centrar verticalmente */
+}
+
+header {
+  width: 100%;
+  padding: 20px;
+  text-align: center;
+}
+
+nav ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+nav ul li {
+  display: inline;
+  margin-right: 20px;
+}
+
+nav ul li a {
+  color: white;
+  text-decoration: none;
+}
+
+.section {
+  width: 80%;
+  margin: 20px auto;
+}
+
+.title {
+    color: white; /* Color del texto */
+}
+
+.subtitle {
+    color: white; /* Color del texto */
+    margin-top: 20px; /* Espacio arriba del subtítulo */
+}
+
+.heatmap-container, .historico-container {
+    width: 100%; /* Ancho del contenedor */
+    height: 550px; /* Alto del contenedor */
+    background-color: #ccc; /* Color gris */
+}

@@ -1,0 +1,31 @@
+version: '3.8'
+
+services:
+  backend:
+    image: acye2_p1_backend
+    container_name: acye2_p1_backend
+    privileged: true
+    restart: always
+    ports:
+      - "8080:8080"
+    expose:
+      - "8080"
+    depends_on:
+      - db
+
+  db:
+    image: postgres:latest
+    container_name: p1_so1_db
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: 123
+      POSTGRES_USER: postgres
+      POSTGRES_DB: db_arqui
+    ports:
+      - "5432:5432"
+    expose:
+      - "5432"
+    volumes:
+      - postgresData:/var/lib/mysql
+volumes:
+  mysql-data:

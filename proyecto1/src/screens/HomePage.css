@@ -1,0 +1,63 @@
+/* HomePage.css */
+
+.home-page {
+    background-color: #333; /* Fondo oscuro pero no negro */
+    height: 100vh; /* Altura de la pantalla completa */
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Centrar verticalmente */
+  }
+  
+  .title {
+    color: white; /* Color del texto */
+  }
+  
+  .container {
+    display: flex;
+  }
+  
+  .column {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .box {
+    margin: 2px; /* Espacio entre los cuadros */
+    position: relative; /* Para posicionar el nombre y el número dentro del cuadro */
+    cursor: pointer; /* Cambiar el cursor a una mano cuando se pasa sobre el cuadro */
+    transition: background-color 0.3s; /* Animación de transición para suavizar el cambio de color */
+  }
+  
+  /* Resaltar el cuadro cuando se pasa el cursor sobre él */
+  .box:hover {
+    background-color: #ddd; /* Cambiar el color de fondo al pasar el cursor */
+  }
+  
+  .name {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    color: #333; /* Color del nombre */
+  }
+  
+  .number {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 24px; /* Tamaño del número */
+    color: #333; /* Color del número */
+  }
+  
+  .small-box {
+    width: 200px;
+    height: 200px;
+    background-color: #ccc; /* Color gris */
+  }
+  
+  .large-box {
+    width: 200px;
+    height: 302px;
+    background-color: #ccc; /* Color gris */
+  }
+  
