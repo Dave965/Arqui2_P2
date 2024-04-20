@@ -1,93 +1,19 @@
 import {useState, useEffect} from 'react';
+import Modal from './components/Modal';
 import compassImage from './img/BRUJULA.png';
 import Swal from 'sweetalert2';
-import Chart from "react-apexcharts";
-import DatePicker from "react-datepicker";
-import "react-datepicker/dist/react-datepicker.css";
 import './App.css';
 
 function App() {
-  const endpoint = 'http://3.84.104.3:8080';
+  const endpoint = 'http://3.80.126.175:8080';
   const [habitacionActual, setHabitacionActual] = useState(10);
   const [datosGenerales, setDatosGenerales] = useState([0,0,0,0,0]);
   const [porcentajes, setPorcentajes] = useState(['p20','p20','p20','p20','p20']);
   const [modalAbierto, setModalAbierto] = useState(false);
-  const [habitacionModal, setHabitacionModal] = useState(10);
   const [dataHabitacion, setDataHabitacion] = useState(null);
-  const [dataHistorico, setDataHistorico] = useState(null)
-  const [startDate, setStartDate] = useState(null);
-  const [endDate, setEndDate] = useState(null);
+  const [habitacionModal, setHabitacionModal] = useState(0);
+  
   const habitaciones = [0,1,2,3,4];
-  const options =  {
-    chart: {
-      id: "basic-bar"
-    },
-    dataLabels: {
-      enabled: false
-    },
-    stroke: {
-      width: 1
-    },
-    title: {
-      text: 'Mapa de Calor'
-    },
-    yaxis: {
-      labels: {
-        show: false,
-      },
-    },
-    xaxis: {
-      labels: {
-        show: false,
-      },
-    },
-    tooltip: {
-      enabled: false
-    },
-    plotOptions: {
-      heatmap: {
-        radius: 0,
-        enableShades: false,
-        distributed: false,
-        useFillColorAsStroke: true,
-        colorScale: {
-          ranges: [{
-              from: 0,
-              to: 0.2,
-              color: '#354fff',
-              name: '0-20%',
-            },
-            {
-              from: 0.2,
-              to: 0.4,
-              color: '#00eff6',
-              name: '20-40%',
-            },
-            {
-              from: 0.4,
-              to: 0.6,
-              color: '#00fe3a',
-              name: '40-60%',
-            },
-            {
-              from: 0.6,
-              to: 0.8,
-              color: '#fff800',
-              name: '60-80%',
-            },
-            {
-              from: 0.8,
-              to: 1,
-              color: '#ff1731',
-              name: '80-100%',
-            }
-          ]
-        }
-      }
-    }
-  };
-
-
 
   useEffect(()=>{
     let nPorcentajes = [];
@@ -108,12 +34,9 @@ function App() {
     setPorcentajes(nPorcentajes);
   },[datosGenerales]);
 
-  useEffect(()=>{
-    console.log(datosGenerales)
-  },[datosGenerales]);
 
   useEffect(()=>{
-    const interval = setInterval(()=> get_datos(), 1000);
+    const interval = setInterval(()=> get_datos(), 2000);
     return () => clearInterval(interval);
   },[]);
 
@@ -125,19 +48,18 @@ function App() {
   const get_datos =() => {
     fetch(endpoint+'/ultimos-registros')
       .then((res) => res.json())
-      .then((d) => {
-        setDatosGenerales(d);
+      .then((d) => { 
+        setDatosGenerales(d);  
       }).catch(error => {console.log(error);});
 
-    if(modalAbierto){
-      fetch(endpoint+'/tiempo-real/'+habitacionModal)
+    fetch(endpoint+'/tiempo-real')
       .then((res) => res.json())
       .then((d) => {
         setDataHabitacion(d);
         console.log(d); 
       }).catch(error => {console.log(error);});
-    }
   };
+      /**/
 
   const showAlert = (nuevaHabitacion) => {
     let anterior = habitacionActual;
@@ -225,83 +147,7 @@ function App() {
           </div>
         </div>
       </div>
-
-      <div className={"modalOverlay "+(modalAbierto ? "" : 'hidden')} onClick={()=>{setModalAbierto(false)}}>
-      </div>
-      <div className={"modal "+(modalAbierto ? "" : 'hidden')}>
-        {
-          dataHabitacion ? (
-            <>
-              <h3 className='cerrar' onClick={()=>{setModalAbierto(false)}}>&times;</h3>
-              <h1 className="appTitle letraBlanca">Informacion de Habitacion {habitacionModal+1}</h1>
-              <h2 className="subtitleLeft letraBlanca"> {dataHabitacion.cantidad_personas} persona(s) en la habitacion </h2>
-              <h2 className="subtitleMid letraBlanca"> Tiempo real </h2>
-              <Chart
-              className='chart'
-              options={options}
-              series={dataHabitacion.series}
-              type="heatmap"
-              width="500"
-              height="500"
-              />
-
-              <h2 className="subtitleMid letraBlanca"> Historico </h2>
-              <div>
-              <DatePicker
-                selected={startDate}
-                onChange={date => setStartDate(date)}
-                selectsStart
-                startDate={startDate}
-                endDate={endDate}
-                placeholderText="Fecha Inicio"
-                className="cuadritoFecha"
-                showTimeSelect
-                timeFormat="HH:mm"
-                timeIntervals={15}
-                timeCaption="Time"
-                dateFormat="MMMM d, yyyy HH:mm"
-              />
-              <DatePicker
-                selected={endDate}
-                onChange={date => setEndDate(date)}
-                selectsEnd
-                startDate={startDate}
-                endDate={endDate}
-                minDate={startDate}
-                placeholderText="Fecha Fin  "
-                className="cuadritoFecha"
-                showTimeSelect
-                timeFormat="HH:mm"
-                timeIntervals={15}
-                timeCaption="Time"
-                dateFormat="MMMM d, yyyy HH:mm"
-              />
-              </div>
-
-              {
-                dataHistorico &&
-                <Chart
-              className='chart'
-              options={options}
-              series={dataHistorico.series}
-              type="heatmap"
-              width="500"
-              height="500"
-              />
-              }
-              
-            </>
-
-            ) :(
-            <>
-              <h3 className='cerrar' onClick={()=>{setModalAbierto(false)}}>&times;</h3>
-              <h1 className="appTitle letraBlanca">Cargando...</h1>
-            </>
-              
-            )
-        }
-        
-      </div>
+      {dataHabitacion && <Modal endpoint={endpoint} abierto={modalAbierto} setAbierto={setModalAbierto} habitacionModal={habitacionModal} dataHabitacion={dataHabitacion[habitacionModal]}/>}
     </div>
   );
 }

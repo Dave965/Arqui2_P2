@@ -1,3 +1,5 @@
+
+
 const express = require("express");
 const cors = require("cors");
 const bodyParser = require("body-parser");
@@ -130,22 +132,23 @@ app.get("/obtener-json", (req, res) => {
   res.json(jsonResultado);
 });
 
-app.get("/tiempo-real/:noHabitacion", (req, res) => {
-  const { noHabitacion } = req.params;
-  const numero = parseInt(noHabitacion);
+app.get("/tiempo-real", (req, res) => {
+  const array = [];
   const query = `
     select p.Mapa from habitaciones p
-    where id_Habitacion = $1 order by fecha desc
+    where id_Habitacion = $1 order by fecha desc LIMIT 50
     `;
-  pool.query(query, [numero], (error, results) => {
-    if (error) {
-      console.error("no sale la busqueda aaaaaaaaiudaaaaaa", error);
-    } else {
-      const mapas = results.rows.map(row => row.mapa);
-      console.log(mapas);
-      res.json({series: generarJsonDesdeString(mapas).series, cantidad_personas: results.rows ? results.rows[0].cantidad_personas : 0});
-    }
-  });
+    
+  for(let i=0; i<5; i++){
+    pool.query(query, [i], (error, results) => {      
+        const mapas = results.rows.map(row => row.mapa);
+        array.push({series: generarJsonDesdeString(mapas).series, cantidad_personas: results.rows.length != 0 ? results.rows[0].cantidad_personas : 0});
+        if(i==4){
+          res.json(array);
+        }
+    });
+  }
+  
 });
 
 app.post("/historico", (req, res) => {
