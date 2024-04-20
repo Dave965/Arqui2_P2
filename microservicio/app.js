@@ -178,6 +178,29 @@ app.get("/consultar-habitacion", (req, res) => {
   res.send(`${habitacion}`);
 });
 
+app.get("/ultimos-registros", async (req, res) => {
+  try {
+    const query = `
+      SELECT h.cantidad_personas
+      FROM habitaciones h
+      INNER JOIN (
+        SELECT id_Habitacion, MAX(fecha) AS max_fecha
+        FROM habitaciones
+        GROUP BY id_Habitacion
+      ) ultimos ON h.id_Habitacion = ultimos.id_Habitacion AND h.fecha = ultimos.max_fecha
+      ORDER BY h.id_Habitacion;
+    `;
+
+    const { rows } = await pool.query(query);
+    const cantidadPersonas = rows.map(row => row.cantidad_personas);
+
+    res.json(cantidadPersonas);
+  } catch (error) {
+    console.error("Error al ejecutar la consulta:", error);
+    res.status(500).json({ error: "Error interno del servidor" });
+  }
+});
+
 app.get("/cambiar-habitacion/:noHabitacion", (req, res) => {
   const { noHabitacion } = req.params;
   const numero = parseInt(noHabitacion);
