@@ -1,0 +1,286 @@
+:root {
+  --rojo: #ff4000;
+  --beige: #ffefb5;
+  --azul: #319190;
+  --amarillo: #ffc803;
+  --negro: #260d0d;
+  --verde: #6fc276;
+}
+
+.appTitle{
+  font-family: "Montserrat", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 700;
+  font-style: normal;
+  color: var(--negro);
+  margin: 0;
+  padding: 2vh 0;
+}
+
+.App {
+  text-align: center;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.appContent{
+  flex: 1;
+  display: flex;
+  width: 100%;
+}
+
+.wrapperIzq{
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.sidebar {
+  display: flex;
+  gap: 1vh;
+  padding: 5vh 0; 
+  background-color: var(--azul); 
+  width: 80%;
+  
+  border-radius: 10px; 
+  box-shadow: 0 4px 8px rgba(0,0,0,0.5); 
+  display: flex; 
+  flex-direction: column; 
+  align-items: center; 
+  border-radius: 10px;
+  border: solid 2px var(--negro);
+}
+
+.sidebar-title {
+  color: white; 
+  margin: 0;
+  font-family: "Montserrat", sans-serif;
+  font-weight: 700;
+}
+
+
+.sidebar .habitacionActual {
+  background-color: #FFD700; 
+  transform: scale(1.05);
+}
+
+.sidebar button {
+  font-family: "Montserrat", sans-serif;
+  font-weight: 500;
+  width: 80%; 
+  padding: 8px; 
+  background-color: #ADD8E6; 
+  color: #333; 
+  border: none; 
+  border-radius: 10px; 
+  cursor: pointer; 
+  font-size: 16px; 
+  border-radius: 10px;
+  border: solid 2px var(--negro);
+  transition: all 0.3s; 
+}
+
+.sidebar button:hover {
+  background-color: #FFD700; 
+}
+
+.wrapperDer{
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.mapWrapper{
+  display: flex;
+  gap: 2vw;
+  padding: 20px;
+  background-color: var(--verde);
+  border-radius: 10px;
+  border: solid 2px var(--negro);
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+}
+
+.casa{
+  display: flex;
+  gap: 1vh;
+  padding: 1vh 1vh;
+  background-color: var(--negro);
+  border-radius: 10px;
+  justify-content: center;
+  align-items: center;
+}
+
+.filaHabitaciones:nth-child(1){
+  border-top-left-radius: 10px;
+  border-bottom-left-radius: 10px;
+}
+
+.filaHabitaciones:nth-child(2){
+  border-top-right-radius: 10px;
+  border-bottom-right-radius: 10px;
+}
+
+.compassImg{
+  width: 7vw;
+  height: 7vw;
+}
+
+.filaHabitaciones{
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  gap: 1vh;
+}
+
+.filaHabitaciones button{
+  position: relative;
+  overflow: hidden;
+}
+
+.filaHabitaciones button:hover{
+  cursor: pointer;
+}
+
+.filaHabitaciones button::before{
+  position: absolute;
+  overflow: hidden;
+  top: 0;
+  left: 0;
+  z-index: 0;
+  background-color: rgba(255, 255, 255, 0.0);
+  width: 100%;
+  height: 100%;
+  content: ''
+}
+
+.filaHabitaciones button:hover::before{
+  background-color: rgba(255, 255, 255, 0.4);
+}
+
+.filaHabitaciones button:active::before{
+  background-color: rgba(255, 255, 255, 0.8);
+}
+
+.habitacionCuadrada{
+  width: 12vw;
+  aspect-ratio: 1/1;
+  display: flex;
+  flex-direction: column;
+}
+
+.tituloHabitacion{
+  font-family: "Montserrat", sans-serif;
+  font-weight: 600;
+  font-size: 1.2em;
+}
+
+.habitacionRectangular{
+  display: flex;
+  flex-direction: column;
+  width: 12vw;
+  aspect-ratio: 1/1.52;
+}
+
+.wrapperPersonas{
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  width: 100%;
+}
+
+.lblPersonas{
+  font-family: "Montserrat", sans-serif;
+  font-weight: 600;
+  font-size: 15px;
+}
+
+.numeroPersonas{
+  font-family: "Montserrat", sans-serif;
+  font-weight: 600;
+  font-size: 3em;
+  margin: 0;
+}
+
+.p20{
+  background-color: rgba(53, 79, 255,1);
+}
+
+.p20 .tituloHabitacion, .p20 .numeroPersonas, .p20 .lblPersonas{
+  color: white;
+}
+
+.p40{
+  background-color:rgb(0, 239, 246);
+}
+
+.p60{
+  background-color: rgb(0, 254, 58);
+}
+
+.p80{
+  background-color: rgb(255, 248, 0);
+}
+
+.p100{
+  background-color: rgb(255, 23, 49);
+}
+
+
+.modalOverlay{
+  position: absolute;
+  z-index: 1;
+  background-color: rgba(0, 0, 0, 0.3);
+  transition: all 500ms;
+  height: 100vh;
+  width: 100vw;
+}
+
+.modal{
+  position: absolute;
+  z-index: 30;
+  width: 80vw;
+  height: 80vh;
+  background-color: var(--azul);
+  border-radius: 10px;
+  border: solid 2px var(--negro);
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+}
+
+.letraBlanca{
+  color: white;
+}
+
+.cerrar{
+  position: absolute;
+  right: 2vh;
+  top: 1vh;
+  font-family: "Montserrat", sans-serif;
+  font-weight: 700;
+  font-size: 2.5em;
+  color: red;
+  margin: 0;
+  padding: 0;
+}
+
+.cerrar:hover{
+  transform: scale(1.1);
+  cursor: pointer;
+}
+
+.hidden{
+  display: none;
+}
+
+
+
+::-webkit-scrollbar {
+    display: none;
+}
