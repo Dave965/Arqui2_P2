@@ -1,10 +1,9 @@
-FROM node:alpine as build
-
+FROM node:alpine 
 WORKDIR /client
 
 COPY package*.json .
 
-RUN npm install
+RUN npm install --verbose
 
 COPY . .
 

@@ -7,7 +7,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import './App.css';
 
 function App() {
-  const endpoint = 'http://34.224.66.21:8080';
+  const endpoint = 'http://3.84.104.3:8080';
   const [habitacionActual, setHabitacionActual] = useState(10);
   const [datosGenerales, setDatosGenerales] = useState([0,0,0,0,0]);
   const [porcentajes, setPorcentajes] = useState(['p20','p20','p20','p20','p20']);
@@ -109,8 +109,8 @@ function App() {
   },[datosGenerales]);
 
   useEffect(()=>{
-    console.log(startDate)
-  },[startDate]);
+    console.log(datosGenerales)
+  },[datosGenerales]);
 
   useEffect(()=>{
     const interval = setInterval(()=> get_datos(), 1000);
@@ -128,6 +128,15 @@ function App() {
       .then((d) => {
         setDatosGenerales(d);
       }).catch(error => {console.log(error);});
+
+    if(modalAbierto){
+      fetch(endpoint+'/tiempo-real/'+habitacionModal)
+      .then((res) => res.json())
+      .then((d) => {
+        setDataHabitacion(d);
+        console.log(d); 
+      }).catch(error => {console.log(error);});
+    }
   };
 
   const showAlert = (nuevaHabitacion) => {
@@ -268,7 +277,10 @@ function App() {
                 dateFormat="MMMM d, yyyy HH:mm"
               />
               </div>
-              <Chart
+
+              {
+                dataHistorico &&
+                <Chart
               className='chart'
               options={options}
               series={dataHistorico.series}
@@ -276,6 +288,8 @@ function App() {
               width="500"
               height="500"
               />
+              }
+              
             </>
 
             ) :(

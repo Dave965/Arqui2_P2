@@ -62,6 +62,7 @@ app.post("/insertarMedicion", async (req, res) => {
 
     await pool.query(query, values);
 
+    console.log("Datos insertados correctamente");
     res.status(200).send("Datos insertados correctamente");
   } catch (error) {
     console.error("Error al insertar datos:", error);
@@ -84,7 +85,7 @@ function generarJsonDesdeString(registros) {
     matriz.push(lin);
   }
 
-  for (str of registros) {
+  for (let str of registros) {
     let lineas = [];
     for (let i = 0; i < str.length; i += 20) {
       lineas.push(str.substring(i, i + 20));
@@ -141,7 +142,8 @@ app.get("/tiempo-real/:noHabitacion", (req, res) => {
       console.error("no sale la busqueda aaaaaaaaiudaaaaaa", error);
     } else {
       const mapas = results.rows.map(row => row.mapa);
-      res.json({series: generarJsonDesdeString(mapas).series, cantidad_personas: results.rows[0].cantidad_personas});
+      console.log(mapas);
+      res.json({series: generarJsonDesdeString(mapas).series, cantidad_personas: results.rows ? results.rows[0].cantidad_personas : 0});
     }
   });
 });
@@ -194,8 +196,10 @@ app.get("/ultimos-registros", async (req, res) => {
     `;
 
     const { rows } = await pool.query(query);
-    const cantidadPersonas = rows.map(row => row.cantidad_personas);
-
+    let cantidadPersonas = rows.map(row => row.cantidad_personas);
+    if(cantidadPersonas.length == 0){
+      cantidadPersonas = [0,0,0,0,0];
+    }
     res.json(cantidadPersonas);
   } catch (error) {
     console.error("Error al ejecutar la consulta:", error);
