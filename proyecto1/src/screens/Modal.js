@@ -3,7 +3,7 @@ import "./Modal.css";
 import ApexCharts from "apexcharts";
 
 const Modal = ({ onClose, roomName }) => {
-  
+  const [DataTR, setDataTR] = useState([]);
   const graficaRef = useRef(null); // Ref para almacenar la instancia de la gráfica
   const historicoRef = useRef(null); // Ref para almacenar la instancia de la gráfica histórica
 
@@ -62,20 +62,7 @@ const Modal = ({ onClose, roomName }) => {
     }
 
     // Función para generar datos aleatorios
-    
-
-    // Función de limpieza
-    return () => {
-      if (graficaRef.current) {
-        graficaRef.current.destroy();
-      }
-      if (historicoRef.current) {
-        historicoRef.current.destroy();
-      }
-    };
-  }, [roomName]);
-
-  function generateData(count, yrange) {
+    function generateData(count, yrange) {
       var i = 0;
       var series = [];
       while (i < count) {
@@ -91,8 +78,16 @@ const Modal = ({ onClose, roomName }) => {
       return series;
     }
 
-
-  const [DataTR, setDataTR] = useState([{name: '', data: generateData(10, 5)}]);
+    // Función de limpieza
+    return () => {
+      if (graficaRef.current) {
+        graficaRef.current.destroy();
+      }
+      if (historicoRef.current) {
+        historicoRef.current.destroy();
+      }
+    };
+  }, [roomName]);
 
   return (
     <div className="modal">

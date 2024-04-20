@@ -129,17 +129,19 @@ app.get("/obtener-json", (req, res) => {
   res.json(jsonResultado);
 });
 
-app.get("/tiempo-real", (req, res) => {
+app.get("/tiempo-real/:noHabitacion", (req, res) => {
+  const { noHabitacion } = req.params;
+  const numero = parseInt(noHabitacion);
   const query = `
     select p.Mapa from habitaciones p
-    where id_Habitacion = $1
+    where id_Habitacion = $1 order by fecha desc
     `;
-  pool.query(query, [habitacion], (error, results) => {
+  pool.query(query, [numero], (error, results) => {
     if (error) {
       console.error("no sale la busqueda aaaaaaaaiudaaaaaa", error);
     } else {
       const mapas = results.rows.map(row => row.mapa);
-      res.json(generarJsonDesdeString(mapas));
+      res.json({series: generarJsonDesdeString(mapas).series, cantidad_personas: results.rows[0].cantidad_personas});
     }
   });
 });
