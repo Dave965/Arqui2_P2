@@ -112,7 +112,7 @@ function generarJsonDesdeString(registros) {
     };
     for (let j = 0; j < linea.length; j++) {
       valor = linea[j];
-      porcenUno = valor / mas_alto;
+      porcenUno = mas_alto > 0 ? (valor / mas_alto) : 0;
       dato = {};
       serie.data.push({ x: j, y: porcenUno });
     }

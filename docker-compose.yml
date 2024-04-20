@@ -2,7 +2,7 @@ version: '3.8'
 
 services:
   backend:
-    image: acye2_p1_backend
+    image: andyst70/acye2_p1_backend
     container_name: acye2_p1_backend
     privileged: true
     restart: always
@@ -14,7 +14,7 @@ services:
       - db
 
   frontend:
-    image: acye2_p1_frontend
+    image: andyst70/acye2_p1_frontend
     container_name: acye2_p1_frontend
     restart: always
     ports:
