@@ -1,0 +1,156 @@
+#include <Servo.h>
+
+Servo servoVer; // Servo vertical
+Servo servoHor; // Servo horizontal
+
+float x;
+float y;
+int prevX;
+int prevY;
+int buttonState = 0; // Estado actual del botón
+int lastButtonState = LOW; // Estado previo del botón
+int buttonPin = 2; // Pin donde está conectado el botón
+int ledPinG = 4; //pin led
+int buzzerPin = 5; // pin buzzer
+int ledPinR = 6; //pin led
+int lastServoX = 90; // Última posición registrada del servo X
+int lastServoY = 90; // Última posición registrada del servo Y
+unsigned long pressTime = 0;
+bool sesion_activa = false;
+bool tracking  = true;
+String numero_leido = "";
+int cont_nums = 0;
+int estado_leyendo = 0;
+
+
+void setup() {
+  Serial.begin(9600);
+  servoVer.attach(9); // Attach Vertical Servo to Pin 9
+  servoHor.attach(10); // Attach Horizontal Servo to Pin 10
+  servoVer.write(90);
+  servoHor.write(90);
+  pinMode(buttonPin, INPUT); // Configurar el pin del botón como entrada
+  pinMode(ledPinG, OUTPUT);          // Configura el pin del LED como salida
+  pinMode(ledPinR, OUTPUT);          // Configura el pin del LED como salida
+  pinMode(buzzerPin, OUTPUT);       // Configura el pin del buzzer como salida
+}
+
+void Pos() {
+  if(abs(x-320) >= 10 || abs(y-240)>=10) {
+    int servoX = map(x, 0, 640, 11, -11);
+    int servoY = map(y, 0, 480, -11, 11);
+    servoX = lastServoX+servoX;
+    servoY = lastServoY+servoY;
+    servoX = min(servoX, 180);
+    servoX = max(servoX, 0);
+    servoY = min(servoY, 180);
+    servoY = max(servoY, 0);
+    
+    servoHor.write(servoX);
+    servoVer.write(servoY);
+    
+    lastServoX = servoX; // Guardar la última posición del servo X
+    lastServoY = servoY; // Guardar la última posición del servo Y
+  }
+}
+
+void centrarCara() {
+  servoHor.write(lastServoX); // Mover el servo horizontal a la última posición registrada
+  servoVer.write(lastServoY); // Mover el servo vertical a la última posición registrada
+}
+
+void loop() {
+  buttonState = digitalRead(buttonPin); // Leer el estado del botón
+
+  if (buttonState != lastButtonState) { // Si el estado del botón cambia
+    if (buttonState == HIGH) { // Si se presiona el botón
+      pressTime = millis();
+    }else{
+      if(millis()-pressTime >= 7000){
+        cerrar_sesion();
+        sesion_activa = false;
+      }else{
+        tracking = !tracking;
+      }
+    }
+    lastButtonState = buttonState; // Guardar el estado del botón para la próxima iteración
+  }
+
+  if(!sesion_activa){
+    while(Serial.available()>0){
+      if(Serial.read() == 's'){
+        reconocido();
+        sesion_activa = true;
+      }else{
+        no_reconocido();
+      }
+    }
+  }else{
+    
+      if(estado_leyendo == 0){
+        Serial.write("0");
+        estado_leyendo = 1;
+        cont_nums = 0;
+      }else if(estado_leyendo == 1){
+        while(Serial.available()){
+          char c = Serial.read();
+          numero_leido += c;
+          if(c == '|'){
+            if(cont_nums == 0){
+              x = numero_leido.toFloat();
+            }else{
+              y = numero_leido.toFloat();
+            }
+            cont_nums++;
+            numero_leido = "";
+          }
+        }
+
+        if(cont_nums == 2){
+          if(tracking){
+            Pos();
+          }
+          estado_leyendo = 0;
+        }
+
+    }
+  }
+}
+
+void cerrar_sesion(){
+  Serial.write("1");
+  delay(200);
+}
+
+void reconocido(){  
+    digitalWrite(ledPinG, HIGH);
+    digitalWrite(buzzerPin, HIGH);
+    delay(1000);
+    digitalWrite(buzzerPin, LOW);
+    delay(2000);
+
+    digitalWrite(buzzerPin, HIGH);
+    delay(1000);
+    digitalWrite(buzzerPin, LOW);
+    delay(2000);
+
+    digitalWrite(buzzerPin, HIGH);
+    delay(1000);
+    digitalWrite(buzzerPin, LOW);
+    delay(2000);
+    digitalWrite(ledPinG, LOW);
+}
+
+
+void no_reconocido(){
+  digitalWrite(ledPinR, HIGH);
+  digitalWrite(buzzerPin, HIGH);
+  delay(1000);
+  digitalWrite(ledPinR, LOW);
+}
+
+
+
+
+
+
